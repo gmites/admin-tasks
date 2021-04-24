@@ -1,11 +1,21 @@
 const {taskModel} = require('../models')
 
 const getAllTasks = async(req, res) => {
-    res.send("getAllTasks")
+    const data = await taskModel.find()
+    const response = {
+        status: 'Success',
+        data: data
+    }
+    res.json(response)
 }
 
 const getTask = async(req, res) => {
-    res.send("getTask")
+    const data = await taskModel.findById(req.params.id)
+    const response = {
+        status: 'Success',
+        data: data
+    }
+    res.json(response)
 }
 
 const createTask = async(req, res) => {
@@ -21,11 +31,32 @@ const createTask = async(req, res) => {
 }
 
 const updateTask = async(req, res) => {
-    res.send("updateTask")
+    const task = await taskModel.findById(req.params.id)
+    task.title = req.body.title
+    task.description = req.body.description
+    task.isPublic = req.body.isPublic
+    const data = await task.save()
+
+    const response = {
+        status: 'Success',
+        data: {
+            task:[data]
+        }
+    }
+    res.json(response)
 }
 
 const deleteTask = async(req, res) => {
-    res.send("deleteTask")
+    const task = await taskModel.findById(req.params.id)
+    task.isDeleted = true
+    const data = await task.save()
+    const response = {
+        status: 'Success',
+        data: {
+            task:[]
+        }
+    }
+    res.json(response) 
 }
 
 module.exports = {

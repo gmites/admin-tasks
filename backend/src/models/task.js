@@ -2,8 +2,9 @@ const {Schema, model} = require('mongoose')
 
 const taskSchema = new Schema({
     title:String,
+    description: String,
     isPublic: Boolean,
-    description: String
+    isDeleted: { type: Boolean, default: false }
     },
     { timestamps: true }
 )
