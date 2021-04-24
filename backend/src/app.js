@@ -1,6 +1,15 @@
 const express = require('express')
+const mongoose = require('mongoose')
 const cors = require('cors')
 const routes = require('./routes')
+
+mongoose.connect('mongodb://localhost/admin-tasks')
+.then((db)=>{
+    console.log("Connected")
+})
+.catch((error)=>{
+    console.log("Error")
+})
 
 //Settings
 const app = express()
