@@ -1,4 +1,4 @@
-const {userModel, roleModel} = require('../models')
+const {userModel, roleModel, taskModel} = require('../models')
 
 const getAllUsers = async(req, res) => {
     const data = await userModel.find()
@@ -30,21 +30,25 @@ const createUser = async(req, res) => {
         res.json(response)
     } catch(err){
         res.json({err: err.message})
-    }
-        
+    }    
 }
 
 const deleteUser = async(req, res) => {
-    const user = await userModel.findById(req.params.id)
-    user.isDeleted = true
-    const data = await user.save()
-    const response = {
-        status: 'Success',
-        data: {
-            user:[]
+    try{
+        const user = await userModel.findById(req.params.id)
+        const tasks = await taskModel.find({user:req.params.id})
+        user.isDeleted = true
+        const data = await user.save()
+        const response = {
+            status: 'Success',
+            data: {
+                user:[data]
+            }
         }
+        res.json(response) 
+    }catch(err){
+        res.json({err: err.message})
     }
-    res.json(response) 
 }
 
 module.exports = {

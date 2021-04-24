@@ -1,4 +1,4 @@
-const {taskModel} = require('../models')
+const {taskModel, userModel} = require('../models')
 
 const getAllTasks = async(req, res) => {
     const data = await taskModel.find()
@@ -19,15 +19,28 @@ const getTask = async(req, res) => {
 }
 
 const createTask = async(req, res) => {
-    const newTask = new taskModel(req.body)
-    const data = await newTask.save()
-    const response = {
-        status: 'Success',
-        data: {
-            task:[data]
+    try{
+        const user = await userModel.findOne({username:req.body.user}) 
+        const dataTask = {
+            username: req.body.username,
+            email: req.body.email,
+            password: req.body.password,
+            user:[
+                user._id
+            ]
         }
+        const newTask = new taskModel(dataTask)
+        const data = await newTask.save()
+        const response = {
+            status: 'Success',
+            data: {
+                task:[data]
+            }
+        }
+        res.json(response)
+    }catch(err){
+        res.json({err: err.message})
     }
-    res.json(response)
 }
 
 const updateTask = async(req, res) => {
