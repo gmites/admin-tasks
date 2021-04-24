@@ -8,7 +8,7 @@ mongoose.connect('mongodb://localhost/admin-tasks')
     console.log("Connected")
 })
 .catch((error)=>{
-    console.log("Error")
+    console.log("Error DataBase")
 })
 
 //Settings
