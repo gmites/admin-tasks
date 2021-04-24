@@ -21,6 +21,7 @@ app.use(cors())
 
 //Routes
 app.use(routes.tasksRoutes)
+app.use(routes.usersRoutes)
 
 app.listen(app.get('port'), ()=>{
     console.log('Server on port', app.get('port'))

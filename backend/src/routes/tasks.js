@@ -1,6 +1,5 @@
 const {Router} = require('express')
 const {tasksController} = require('../controllers')
-
 const router = Router()
 
 router.get('/tasks', tasksController.getAllTasks)

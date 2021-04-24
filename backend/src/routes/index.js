@@ -1,5 +1,7 @@
 const tasksRoutes = require('./tasks')
+const usersRoutes = require('./users')
 
 module.exports={
-    tasksRoutes
+    tasksRoutes,
+    usersRoutes
 }
