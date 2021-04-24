@@ -1,3 +1,5 @@
+const {taskModel} = require('../models')
+
 const getAllTasks = async(req, res) => {
     res.send("getAllTasks")
 }
@@ -7,7 +9,15 @@ const getTask = async(req, res) => {
 }
 
 const createTask = async(req, res) => {
-    res.send("createTask")
+    const newTask = new taskModel(req.body)
+    const data = await newTask.save()
+    const response = {
+        status: 'Success',
+        data: {
+            task:[data]
+        }
+    }
+    res.json(response)
 }
 
 const updateTask = async(req, res) => {

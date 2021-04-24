@@ -2,10 +2,10 @@ const {Schema, model} = require('mongoose')
 
 const taskSchema = new Schema({
     title:String,
-    description: String,
     isPublic: Boolean,
-    creationDate: Date,
-    updateDate: Date
-})
+    description: String
+    },
+    { timestamps: true }
+)
 
 module.exports = model('task', taskSchema)
