@@ -1,4 +1,4 @@
-const {userModel} = require('../models')
+const {userModel, roleModel} = require('../models')
 
 const getAllUsers = async(req, res) => {
     const data = await userModel.find()
@@ -9,15 +9,29 @@ const getAllUsers = async(req, res) => {
     res.json(response)
 }
 const createUser = async(req, res) => {
-    const newUser = new userModel(req.body)
-    const data = await newUser.save()
-    const response = {
-        status: 'Success',
-        data: {
-            user:[data]
+    try{
+        const role = await roleModel.findOne({name:req.body.role})
+        const dataUser = {
+            username: req.body.username,
+            email: req.body.email,
+            password: req.body.password,
+            role:[
+                role._id
+            ]
         }
+        const newUser = new userModel(dataUser)
+        const data = await newUser.save()
+        const response = {
+            status: 'Success',
+            data: {
+                user:[data]
+            }
+        }
+        res.json(response)
+    } catch(err){
+        res.json({err: err.message})
     }
-    res.json(response)
+        
 }
 
 const deleteUser = async(req, res) => {
